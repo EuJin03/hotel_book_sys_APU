@@ -10,7 +10,7 @@ public class Room implements Serializable {
 
   public Room(int _id, String type, boolean occupied) {
     this.set_id(_id);
-    this.setType(type);
+    this.setType(type); // Sea or Jungle View
     this.setOccupied(occupied);
   }
 

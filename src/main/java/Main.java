@@ -15,44 +15,49 @@ public class Main extends Application {
 
   @Override
   public void start(Stage stage) throws Exception {
-    FXMLLoader loader = new FXMLLoader(
-      getClass().getResource("controllers/Login.fxml")
-    );
-    Parent root = loader.load();
-    loader.getController();
-    Scene scene = new Scene(root);
+    try {
+      FXMLLoader loader = new FXMLLoader(
+        getClass().getResource("controllers/Login.fxml")
+      );
+      Parent root = loader.load();
+      loader.getController();
+      Scene scene = new Scene(root);
 
-    stage.setTitle("Resort Room Booking System");
-    stage.centerOnScreen();
-    stage.setResizable(false);
-    stage.setScene(scene);
-    stage.show();
+      stage.setTitle("Resort Room Booking System");
+      stage.centerOnScreen();
+      stage.setResizable(false);
+      stage.setScene(scene);
+      stage.show();
+    } catch (Exception err) {
+      err.printStackTrace();
+    }
   }
 
   public static void main(String[] args)
     throws IOException, InterruptedException, ClassNotFoundException {
     new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
 
-    LocalDate date1 = LocalDate.parse("2022-03-18");
-    LocalDate date2 = LocalDate.parse("2021-03-21");
-
-    Reservation test = new Reservation(
-      2,
-      "Tin",
-      "020603101803",
-      "0183216766",
-      "tin@mail.com",
-      201,
-      date2,
-      date1
-    );
+    LocalDate date1 = LocalDate.parse("2022-03-15");
+    LocalDate date2 = LocalDate.parse("2022-03-18");
 
     ArrayList<Reservation> al = new ArrayList<Reservation>();
     al = new FileService().readReservationData();
+    Reservation test = new Reservation(
+      1005,
+      "Eugene",
+      "020603101803",
+      "0183216766",
+      "eugene@mail.com",
+      201,
+      "Sea",
+      date1,
+      date2
+    );
 
-    System.out.println(al);
+    al.add(test);
+    new FileService().writeReservationData(al);
 
-    // always last
+    // invoke javafx GUI
     launch(args);
   }
 }

@@ -54,9 +54,8 @@ public class LoginController extends CommonMethods implements StaffDao {
           if (valid) {
             // prompt user to home page
             FXMLLoader loader = new CommonMethods().loadButtonScene(e);
-            // HomeController homeController = loader.getController();
-            // homeController.getUsername();
-
+            HomeController homeController = loader.getController();
+            homeController.displayName(username);
           } else {
             // set incorrect password label to visible
             passwordErr.setStyle("-fx-opacity: 1");

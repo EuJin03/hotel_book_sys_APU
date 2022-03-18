@@ -3,6 +3,7 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Hyperlink?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
@@ -10,7 +11,7 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.java.controllers.LoginController">
    <children>
-      <Label alignment="CENTER" layoutY="-1.0" prefHeight="132.0" prefWidth="1280.0" style="-fx-background-color: #F0F0F0;" text="Resort Room Booking System">
+      <Label TextFill="WHITE" alignment="CENTER" prefHeight="132.0" prefWidth="1280.0" style="-fx-background-color: #073422;" text="Resort Room Booking System">
          <font>
             <Font name="Segoe UI Bold" size="32.0" />
          </font>
@@ -35,7 +36,7 @@
                         <Font size="16.0" />
                      </font>
                   </Label>
-                  <TextField fx:id="passwordInput" layoutX="50.0" layoutY="110.0" prefHeight="25.0" prefWidth="318.0" />
+                  <PasswordField fx:id="passwordInput" layoutX="50.0" layoutY="110.0" prefHeight="25.0" prefWidth="318.0" />
                   <Button fx:id="registerButton" layoutX="170.0" layoutY="236.0" mnemonicParsing="false" onAction="#register" prefHeight="31.0" prefWidth="76.0" text="Register" />
                   <Label fx:id="passwordErr" layoutX="50.0" layoutY="132.0" prefHeight="17.0" prefWidth="318.0" style="-fx-opacity: 0;" text="Password must be at least 6 character" textFill="RED" />
                   <Label fx:id="usernameErr" layoutX="50.0" layoutY="66.0" prefHeight="17.0" prefWidth="318.0" style="-fx-opacity: 0;" text="Username unavailable" textFill="RED" />
@@ -44,7 +45,7 @@
                         <Font size="16.0" />
                      </font>
                   </Label>
-                  <TextField fx:id="confirmPasswordInput" layoutX="49.0" layoutY="181.0" prefHeight="25.0" prefWidth="318.0" />
+                  <PasswordField fx:id="confirmPasswordInput" layoutX="49.0" layoutY="181.0" prefHeight="25.0" prefWidth="318.0" />
                   <Label fx:id="confirmPasswordErr" layoutX="49.0" layoutY="206.0" prefHeight="17.0" prefWidth="318.0" style="-fx-opacity: 0;" text="Password does not match" textFill="RED" />
                </children>
             </Pane>

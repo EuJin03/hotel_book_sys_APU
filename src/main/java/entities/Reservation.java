@@ -12,15 +12,14 @@ public class Reservation implements Serializable {
   private String contact;
   private String email;
   private int room_id;
+  private String roomType;
   private LocalDate checkin;
   private LocalDate checkout;
   private long duration;
-  private double netPrice;
-  private double totalRoomTax;
 
   static final double price = 350;
   static final int roomTax = 10;
-  final int serviceTax;
+  static final double serviceTax = 1.1;
 
   public Reservation(
     int _id,
@@ -29,6 +28,7 @@ public class Reservation implements Serializable {
     String contact,
     String email,
     int room_id,
+    String roomType,
     LocalDate checkin,
     LocalDate checkout
   ) {
@@ -38,12 +38,10 @@ public class Reservation implements Serializable {
     this.setContact(contact);
     this.setEmail(email);
     this.setRoom_id(room_id);
+    this.setRoomType(roomType);
     this.setCheckin(checkin);
     this.setCheckout(checkout);
     this.setDuration();
-    this.setNetPrice();
-    this.setTotalRoomTax();
-    serviceTax = 10;
   }
 
   // Getter
@@ -71,6 +69,10 @@ public class Reservation implements Serializable {
     return room_id;
   }
 
+  public String getRoomType() {
+    return roomType;
+  }
+
   public LocalDate getCheckin() {
     return checkin;
   }
@@ -84,11 +86,15 @@ public class Reservation implements Serializable {
   }
 
   public double getNetPrice() {
-    return netPrice;
+    return Math.round(price * getDuration());
   }
 
   public double getTotalRoomTax() {
-    return totalRoomTax;
+    return Math.round(roomTax * getDuration());
+  }
+
+  public double getTotalPrice() {
+    return Math.round(getNetPrice() * serviceTax + getTotalRoomTax());
   }
 
   public String toString() {
@@ -104,6 +110,8 @@ public class Reservation implements Serializable {
       email +
       " " +
       room_id +
+      " " +
+      roomType +
       " " +
       checkin +
       " " +
@@ -138,6 +146,10 @@ public class Reservation implements Serializable {
     this.room_id = room_id;
   }
 
+  public void setRoomType(String roomType) {
+    this.roomType = roomType;
+  }
+
   public void setCheckin(LocalDate checkin) {
     this.checkin = checkin;
   }
@@ -147,15 +159,6 @@ public class Reservation implements Serializable {
   }
 
   public void setDuration() {
-    this.duration =
-      (ChronoUnit.DAYS.between(getCheckin(), getCheckout()) - 60) / 60;
-  }
-
-  public void setNetPrice() {
-    this.netPrice = price * getDuration();
-  }
-
-  public void setTotalRoomTax() {
-    this.totalRoomTax = roomTax * getDuration();
+    this.duration = ChronoUnit.DAYS.between(getCheckin(), getCheckout());
   }
 }
