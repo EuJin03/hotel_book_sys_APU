@@ -29,6 +29,8 @@ public class HomeController
   extends CommonMethods
   implements ReservationDao, Initializable {
 
+  String newGuestName;
+
   @FXML
   private Label homeTitle;
 
@@ -105,24 +107,132 @@ public class HomeController
 
   @Override
   public void editReservation(ActionEvent e) {
+    // UI Changes
     cancelEditReservationButton.setStyle("visibility: visible");
     confirmEditReservationButton.setStyle("visilibity: visible");
     receiptButton.setStyle("visibility: hidden");
-    reservationTable.setEditable(true);
 
+    // Set table edit mode
+    reservationTable.setEditable(true);
     guestNameCol.setCellFactory(TextFieldTableCell.forTableColumn());
+    icCol.setCellFactory(TextFieldTableCell.forTableColumn());
+    emailCol.setCellFactory(TextFieldTableCell.forTableColumn());
+    contactCol.setCellFactory(TextFieldTableCell.forTableColumn());
+
+    // Get col text changes
     guestNameCol.setOnEditCommit(
       new EventHandler<CellEditEvent<Reservation, String>>() {
         @Override
         public void handle(CellEditEvent<Reservation, String> event) {
-          Reservation reservation = event.getRowValue();
-          reservation.setGuestName(event.getNewValue());
+          Reservation res = event.getRowValue();
+          res.setGuestName(event.getNewValue());
+        }
+      }
+    );
+
+    icCol.setOnEditCommit(
+      new EventHandler<CellEditEvent<Reservation, String>>() {
+        @Override
+        public void handle(CellEditEvent<Reservation, String> event) {
+          Reservation res = event.getRowValue();
+          res.setIC(event.getNewValue());
+        }
+      }
+    );
+
+    contactCol.setOnEditCommit(
+      new EventHandler<CellEditEvent<Reservation, String>>() {
+        @Override
+        public void handle(CellEditEvent<Reservation, String> event) {
+          Reservation res = event.getRowValue();
+          res.setContact(event.getNewValue());
+        }
+      }
+    );
+
+    emailCol.setOnEditCommit(
+      new EventHandler<CellEditEvent<Reservation, String>>() {
+        @Override
+        public void handle(CellEditEvent<Reservation, String> event) {
+          Reservation res = event.getRowValue();
+          res.setEmail(event.getNewValue());
         }
       }
     );
   }
 
-  public void confirmEditReservation(ActionEvent e) {}
+  public void confirmEditReservation(ActionEvent e) throws IOException {
+    boolean CONFIRMATION = new CommonMethods()
+    .appendAlert(
+        "Save Edit Reservation",
+        "Save Modification",
+        "Are you sure you want to save your changes?"
+      );
+
+    // Get column id
+    int selectedReservationID = reservationTable
+      .getSelectionModel()
+      .getSelectedItem()
+      .get_id();
+
+    if (CONFIRMATION) {
+      // Update database
+      ArrayList<Reservation> reservationAl = new FileService()
+        .readReservationData();
+      ListIterator<Reservation> li = null;
+      li = reservationAl.listIterator();
+      boolean found = false;
+      String newGuestName = reservationTable
+        .getSelectionModel()
+        .getSelectedItem()
+        .getGuestName();
+      String newIC = reservationTable
+        .getSelectionModel()
+        .getSelectedItem()
+        .getIC();
+      String newContact = reservationTable
+        .getSelectionModel()
+        .getSelectedItem()
+        .getContact();
+      String newEmail = reservationTable
+        .getSelectionModel()
+        .getSelectedItem()
+        .getEmail();
+
+      while (li.hasNext()) {
+        Reservation res = (Reservation) li.next();
+        if (res.get_id() == selectedReservationID) {
+          li.set(
+            new Reservation(
+              res.get_id(),
+              newGuestName,
+              newIC,
+              newContact,
+              newEmail,
+              res.getRoom_id(),
+              res.getRoomType(),
+              res.getCheckin(),
+              res.getCheckout()
+            )
+          );
+          found = true;
+        }
+      }
+
+      if (!found) System.out.println("What can you do?"); else new FileService()
+      .writeReservationData(reservationAl);
+
+      // Reset table edit mode
+      reservationTable.setEditable(false);
+
+      // UI Changes
+      cancelEditReservationButton.setStyle("visibility: hidden");
+      confirmEditReservationButton.setStyle("visibility: hidden");
+      receiptButton.setStyle("visibility: visible");
+      // Refresh the new data table
+      // viewAllReservation();
+    }
+  }
 
   public void cancelEditReservation(ActionEvent e) {
     boolean CONFIRMATION = new CommonMethods()
@@ -133,13 +243,17 @@ public class HomeController
       );
 
     if (CONFIRMATION) {
+      // Reset table edit mode
       reservationTable.setEditable(false);
       guestNameCol.setCellFactory(TextFieldTableCell.forTableColumn());
 
-      viewAllReservation();
+      // UI Changes
       cancelEditReservationButton.setStyle("visibility: hidden");
       confirmEditReservationButton.setStyle("visibility: hidden");
       receiptButton.setStyle("visibility: visible");
+
+      // Refresh the new data table
+      viewAllReservation();
     }
   }
 
@@ -149,6 +263,7 @@ public class HomeController
       .getSelectionModel()
       .getSelectedItem()
       .get_id();
+
     int selectedID = reservationTable.getSelectionModel().getSelectedIndex();
     boolean CONFIRMATION = new CommonMethods()
     .appendAlert(
