@@ -17,12 +17,18 @@ public class CommonMethods {
 
   public FXMLLoader loadButtonScene(ActionEvent event) {
     String newscene = "";
-    if (((Button) (event.getSource())).getId().equals("loginButton")) newscene =
-      "Home.fxml";
+    if (
+      ((Button) (event.getSource())).getId().equals("loginButton") ||
+      ((Button) (event.getSource())).getId().equals("returnButton")
+    ) newscene = "Home.fxml";
 
     if (
       ((Button) (event.getSource())).getId().equals("logoutButton")
     ) newscene = "Login.fxml";
+
+    if (
+      ((Button) (event.getSource())).getId().equals("receiptButton")
+    ) newscene = "Receipt.fxml";
 
     try {
       FXMLLoader loader = new FXMLLoader(getClass().getResource(newscene));

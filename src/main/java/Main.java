@@ -37,19 +37,19 @@ public class Main extends Application {
     throws IOException, InterruptedException, ClassNotFoundException {
     new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
 
-    LocalDate date1 = LocalDate.parse("2022-03-15");
-    LocalDate date2 = LocalDate.parse("2022-03-18");
+    LocalDate date1 = LocalDate.parse("2022-03-10");
+    LocalDate date2 = LocalDate.parse("2022-03-30");
 
     ArrayList<Reservation> al = new ArrayList<Reservation>();
     al = new FileService().readReservationData();
     Reservation test = new Reservation(
-      1005,
-      "Eugene",
+      1007,
+      "Ah Sim",
       "020603101803",
       "0183216766",
-      "eugene@mail.com",
-      201,
-      "Sea",
+      "simjunghyun@gmail.com",
+      100,
+      "Jungle",
       date1,
       date2
     );

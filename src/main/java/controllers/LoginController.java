@@ -76,7 +76,7 @@ public class LoginController extends CommonMethods implements StaffDao {
 
   @Override
   public void register(ActionEvent e) {
-    // TODO Auto-generated method stub
+    // Pending
     System.out.println(usernameInput.getText());
     System.out.println(passwordInput.getText());
     System.out.println(confirmPasswordInput.getText());

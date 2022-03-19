@@ -17,9 +17,9 @@ public class Reservation implements Serializable {
   private LocalDate checkout;
   private long duration;
 
-  static final double price = 350;
-  static final int roomTax = 10;
-  static final double serviceTax = 1.1;
+  final double price = 350;
+  final int roomTax = 10;
+  final double serviceTax = 1.1;
 
   public Reservation(
     int _id,
@@ -87,6 +87,10 @@ public class Reservation implements Serializable {
 
   public double getNetPrice() {
     return Math.round(price * getDuration());
+  }
+
+  public double getServiceTax() {
+    return Math.round(getNetPrice() * 0.1);
   }
 
   public double getTotalRoomTax() {

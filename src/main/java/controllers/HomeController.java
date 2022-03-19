@@ -11,6 +11,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -57,7 +58,7 @@ public class HomeController
 
   @Override
   public void viewAllReservation() {
-    ObservableList<Reservation> reservationAl = FXCollections.observableArrayList(
+    ObservableList<Reservation> reservationOl = FXCollections.observableArrayList(
       new FileService().readReservationData()
     );
 
@@ -94,12 +95,49 @@ public class HomeController
       new PropertyValueFactory<Reservation, Integer>("duration")
     );
 
-    reservationTable.setItems(reservationAl);
+    reservationTable.setItems(reservationOl);
   }
 
   @Override
-  public Reservation viewReservation(ActionEvent e) {
-    return null;
+  public void viewReservation(ArrayList<Reservation> reservationAl) {
+    ObservableList<Reservation> reservationOl = FXCollections.observableArrayList(
+      reservationAl
+    );
+
+    _idCol.setCellValueFactory(
+      new PropertyValueFactory<Reservation, Integer>("_id")
+    );
+    guestNameCol.setCellValueFactory(
+      new PropertyValueFactory<Reservation, String>("guestName")
+    );
+    icCol.setCellValueFactory(
+      new PropertyValueFactory<Reservation, String>("IC")
+    );
+    contactCol.setCellValueFactory(
+      new PropertyValueFactory<Reservation, String>("contact")
+    );
+    emailCol.setCellValueFactory(
+      new PropertyValueFactory<Reservation, String>("email")
+    );
+    roomIdCol.setCellValueFactory(
+      new PropertyValueFactory<Reservation, Integer>("room_id")
+    );
+
+    roomTypeCol.setCellValueFactory(
+      new PropertyValueFactory<Reservation, String>("roomType")
+    );
+
+    checkInCol.setCellValueFactory(
+      new PropertyValueFactory<Reservation, LocalDate>("checkin")
+    );
+    checkOutCol.setCellValueFactory(
+      new PropertyValueFactory<Reservation, LocalDate>("checkout")
+    );
+    durationCol.setCellValueFactory(
+      new PropertyValueFactory<Reservation, Integer>("duration")
+    );
+
+    reservationTable.setItems(reservationOl);
   }
 
   @Override
@@ -107,60 +145,65 @@ public class HomeController
 
   @Override
   public void editReservation(ActionEvent e) {
-    // UI Changes
-    cancelEditReservationButton.setStyle("visibility: visible");
-    confirmEditReservationButton.setStyle("visilibity: visible");
-    receiptButton.setStyle("visibility: hidden");
+    boolean isEmpty = reservationTable.getSelectionModel().isEmpty();
 
-    // Set table edit mode
-    reservationTable.setEditable(true);
-    guestNameCol.setCellFactory(TextFieldTableCell.forTableColumn());
-    icCol.setCellFactory(TextFieldTableCell.forTableColumn());
-    emailCol.setCellFactory(TextFieldTableCell.forTableColumn());
-    contactCol.setCellFactory(TextFieldTableCell.forTableColumn());
+    if (isEmpty) e.consume(); else {
+      // UI Changes
+      cancelEditReservationButton.setStyle("visibility: visible");
+      confirmEditReservationButton.setStyle("visilibity: visible");
+      receiptButton.setStyle("visibility: hidden");
 
-    // Get col text changes
-    guestNameCol.setOnEditCommit(
-      new EventHandler<CellEditEvent<Reservation, String>>() {
-        @Override
-        public void handle(CellEditEvent<Reservation, String> event) {
-          Reservation res = event.getRowValue();
-          res.setGuestName(event.getNewValue());
+      // Set table edit mode
+      reservationTable.setEditable(true);
+      guestNameCol.setCellFactory(TextFieldTableCell.forTableColumn());
+      icCol.setCellFactory(TextFieldTableCell.forTableColumn());
+      emailCol.setCellFactory(TextFieldTableCell.forTableColumn());
+      contactCol.setCellFactory(TextFieldTableCell.forTableColumn());
+
+      // Get col text changes
+      guestNameCol.setOnEditCommit(
+        new EventHandler<CellEditEvent<Reservation, String>>() {
+          @Override
+          public void handle(CellEditEvent<Reservation, String> event) {
+            Reservation res = event.getRowValue();
+            res.setGuestName(event.getNewValue());
+          }
         }
-      }
-    );
+      );
 
-    icCol.setOnEditCommit(
-      new EventHandler<CellEditEvent<Reservation, String>>() {
-        @Override
-        public void handle(CellEditEvent<Reservation, String> event) {
-          Reservation res = event.getRowValue();
-          res.setIC(event.getNewValue());
+      icCol.setOnEditCommit(
+        new EventHandler<CellEditEvent<Reservation, String>>() {
+          @Override
+          public void handle(CellEditEvent<Reservation, String> event) {
+            Reservation res = event.getRowValue();
+            res.setIC(event.getNewValue());
+          }
         }
-      }
-    );
+      );
 
-    contactCol.setOnEditCommit(
-      new EventHandler<CellEditEvent<Reservation, String>>() {
-        @Override
-        public void handle(CellEditEvent<Reservation, String> event) {
-          Reservation res = event.getRowValue();
-          res.setContact(event.getNewValue());
+      contactCol.setOnEditCommit(
+        new EventHandler<CellEditEvent<Reservation, String>>() {
+          @Override
+          public void handle(CellEditEvent<Reservation, String> event) {
+            Reservation res = event.getRowValue();
+            res.setContact(event.getNewValue());
+          }
         }
-      }
-    );
+      );
 
-    emailCol.setOnEditCommit(
-      new EventHandler<CellEditEvent<Reservation, String>>() {
-        @Override
-        public void handle(CellEditEvent<Reservation, String> event) {
-          Reservation res = event.getRowValue();
-          res.setEmail(event.getNewValue());
+      emailCol.setOnEditCommit(
+        new EventHandler<CellEditEvent<Reservation, String>>() {
+          @Override
+          public void handle(CellEditEvent<Reservation, String> event) {
+            Reservation res = event.getRowValue();
+            res.setEmail(event.getNewValue());
+          }
         }
-      }
-    );
+      );
+    }
   }
 
+  @Override
   public void confirmEditReservation(ActionEvent e) throws IOException {
     boolean CONFIRMATION = new CommonMethods()
     .appendAlert(
@@ -182,22 +225,13 @@ public class HomeController
       ListIterator<Reservation> li = null;
       li = reservationAl.listIterator();
       boolean found = false;
-      String newGuestName = reservationTable
+      Reservation selectedField = reservationTable
         .getSelectionModel()
-        .getSelectedItem()
-        .getGuestName();
-      String newIC = reservationTable
-        .getSelectionModel()
-        .getSelectedItem()
-        .getIC();
-      String newContact = reservationTable
-        .getSelectionModel()
-        .getSelectedItem()
-        .getContact();
-      String newEmail = reservationTable
-        .getSelectionModel()
-        .getSelectedItem()
-        .getEmail();
+        .getSelectedItem();
+      String newGuestName = selectedField.getGuestName();
+      String newIC = selectedField.getIC();
+      String newContact = selectedField.getContact();
+      String newEmail = selectedField.getEmail();
 
       while (li.hasNext()) {
         Reservation res = (Reservation) li.next();
@@ -230,10 +264,11 @@ public class HomeController
       confirmEditReservationButton.setStyle("visibility: hidden");
       receiptButton.setStyle("visibility: visible");
       // Refresh the new data table
-      // viewAllReservation();
+      viewAllReservation();
     }
   }
 
+  @Override
   public void cancelEditReservation(ActionEvent e) {
     boolean CONFIRMATION = new CommonMethods()
     .appendAlert(
@@ -259,48 +294,48 @@ public class HomeController
 
   @Override
   public void deleteReservation(ActionEvent e) throws IOException {
-    int selectedReservationID = reservationTable
-      .getSelectionModel()
-      .getSelectedItem()
-      .get_id();
+    boolean isEmpty = reservationTable.getSelectionModel().isEmpty();
 
-    int selectedID = reservationTable.getSelectionModel().getSelectedIndex();
-    boolean CONFIRMATION = new CommonMethods()
-    .appendAlert(
-        "Delete Reservation",
-        "Delete Reservation ID: " + selectedReservationID,
-        "Are you sure you want to delete this reservation?"
-      );
+    if (isEmpty) e.consume(); else {
+      int selectedReservationID = reservationTable
+        .getSelectionModel()
+        .getSelectedItem()
+        .get_id();
 
-    if (CONFIRMATION) {
-      reservationTable.getItems().remove(selectedID);
+      int selectedID = reservationTable.getSelectionModel().getSelectedIndex();
+      boolean CONFIRMATION = new CommonMethods()
+      .appendAlert(
+          "Delete Reservation",
+          "Delete Reservation ID: " + selectedReservationID,
+          "Are you sure you want to delete this reservation?"
+        );
 
-      ArrayList<Reservation> reservationAl = new FileService()
-        .readReservationData();
-      ListIterator<Reservation> li = reservationAl.listIterator();
-      boolean found = false;
+      if (CONFIRMATION) {
+        reservationTable.getItems().remove(selectedID);
 
-      while (!found) {
-        Reservation r = (Reservation) li.next();
-        if (r.get_id() == selectedReservationID) {
-          li.remove();
-          found = true;
+        ArrayList<Reservation> reservationAl = new FileService()
+          .readReservationData();
+        ListIterator<Reservation> li = reservationAl.listIterator();
+        boolean found = false;
+
+        while (!found) {
+          Reservation r = (Reservation) li.next();
+          if (r.get_id() == selectedReservationID) {
+            li.remove();
+            found = true;
+          }
         }
-      }
 
-      if (!found) {
-        System.out.println("Cannot delete this reservation");
-      } else {
-        new FileService().writeReservationData(reservationAl);
+        if (!found) {
+          System.out.println("Cannot delete this reservation");
+        } else {
+          new FileService().writeReservationData(reservationAl);
+        }
       }
     }
   }
 
   @Override
-  public void initialize(URL arg0, ResourceBundle arg1) {
-    viewAllReservation();
-  }
-
   public void logout(ActionEvent e) {
     boolean CONFIRMATION = new CommonMethods()
     .appendAlert("Logout", "Logout", "Are you sure to logout?");
@@ -309,7 +344,54 @@ public class HomeController
   }
 
   @Override
+  public void viewReceipt(ActionEvent event) {
+    boolean isEmpty = reservationTable.getSelectionModel().isEmpty();
+
+    if (isEmpty) event.consume(); else {
+      Reservation reservation = reservationTable
+        .getSelectionModel()
+        .getSelectedItem();
+
+      FXMLLoader loader = new CommonMethods().loadButtonScene(event);
+      ReceiptController receiptController = loader.getController();
+      receiptController.generateReceipt(reservation);
+    }
+  }
+
+  @Override
   public void displayName(String username) {
     homeTitle.setText("Welcome, " + username + "!");
+  }
+
+  @Override
+  public void initialize(URL arg0, ResourceBundle arg1) {
+    viewAllReservation();
+  }
+
+  public void search(ActionEvent e) {
+    boolean found = false;
+    ArrayList<Reservation> singleReservation = new ArrayList<Reservation>();
+    ListIterator<Reservation> li = null;
+
+    ArrayList<Reservation> reservationAl = new FileService()
+      .readReservationData();
+    li = reservationAl.listIterator();
+
+    while (li.hasNext()) {
+      Reservation reservation = (Reservation) li.next();
+      if (String.valueOf(reservation.get_id()).equals(searchInput.getText())) {
+        found = true;
+        singleReservation.add(reservation);
+      }
+    }
+
+    if (!found) new CommonMethods()
+    .appendAlert(
+        "Reservation ID",
+        "Reservation ID does not exist",
+        "Please check the reservation ID and search again."
+      ); else {
+      viewReservation(singleReservation);
+    }
   }
 }
