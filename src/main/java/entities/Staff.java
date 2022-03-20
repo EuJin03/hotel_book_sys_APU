@@ -28,6 +28,7 @@ public class Staff implements Serializable {
     return password;
   }
 
+  @Override
   public String toString() {
     return _id + " " + username + " " + password;
   }

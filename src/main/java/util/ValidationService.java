@@ -3,6 +3,7 @@ package main.java.util;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.regex.Pattern;
+import main.java.entities.Staff;
 
 public class ValidationService {
 
@@ -58,6 +59,18 @@ public class ValidationService {
     String password,
     String confirmPassword
   ) {
-    return null;
+    ArrayList<Staff> staffAl = new FileService().readStaffData();
+    ArrayList<String> error = new ArrayList<String>();
+    boolean userExist = false;
+
+    if (username.length() < 3) error.add("username");
+    for (Staff staff : staffAl) {
+      if (staff.getUsername().equals(username)) userExist = true;
+    }
+    if (userExist) error.add("usernameExist");
+    if (password.length() <= 6) error.add("password");
+    if (!password.equals(confirmPassword)) error.add("confirmPassword");
+
+    return error;
   }
 }

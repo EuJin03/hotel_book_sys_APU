@@ -101,6 +101,7 @@ public class Reservation implements Serializable {
     return Math.round(getNetPrice() * serviceTax + getTotalRoomTax());
   }
 
+  @Override
   public String toString() {
     return (
       _id +

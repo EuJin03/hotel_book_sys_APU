@@ -35,6 +35,7 @@ public class Main extends Application {
 
     new Seeder().seedStaff();
     new Seeder().seedRoom();
+    new Seeder().seedReservation();
 
     // invoke javafx GUI
     launch(args);

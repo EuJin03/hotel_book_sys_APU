@@ -33,6 +33,9 @@ public class CommonMethods {
     if (
       ((Button) (event.getSource())).getId().equals("logoutButton")
     ) newscene = "Login.fxml";
+    if (
+      ((Button) (event.getSource())).getId().equals("registerButton")
+    ) newscene = "Login.fxml";
 
     if (
       ((Button) (event.getSource())).getId().equals("receiptButton") ||
@@ -144,7 +147,7 @@ public class CommonMethods {
     ListIterator<Room> roomLi = roomAl.listIterator();
 
     for (Reservation reservation : reservationAl) {
-      LocalDate today = LocalDate.now();
+      LocalDate today = LocalDate.now().plusDays(15);
       LocalDate checkOutDate = reservation.getCheckout();
 
       if (today.compareTo(checkOutDate) > 0) {

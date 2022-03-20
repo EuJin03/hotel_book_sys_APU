@@ -7,5 +7,5 @@ import main.java.entities.Staff;
 public interface StaffDao {
   // instanstiate methods
   Staff login(ActionEvent e) throws IOException;
-  void register(ActionEvent e);
+  void register(ActionEvent e) throws IOException;
 }

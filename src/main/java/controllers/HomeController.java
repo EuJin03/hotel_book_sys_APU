@@ -229,7 +229,6 @@ public class HomeController
         "Confirm Reservation."
       );
 
-    // have to put everything into validationService later
     if (CONFIRMATION) {
       // Error Label reset
       guestNameErr.setStyle("-fx-opacity: 0");

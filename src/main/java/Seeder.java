@@ -1,7 +1,9 @@
 package main.java;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import main.java.entities.Reservation;
 import main.java.entities.Room;
 import main.java.entities.Staff;
 import main.java.util.FileService;
@@ -15,14 +17,13 @@ public class Seeder {
     Staff staff3 = new Staff(3, "jeffbezos", "qwerty132");
     Staff staff4 = new Staff(4, "stevejob", "qwerty123");
     Staff staff5 = new Staff(5, "warrenbuffet", "qwerty123");
-    Staff staff6 = new Staff(0, "", "");
 
     al.add(staff1);
     al.add(staff2);
     al.add(staff3);
     al.add(staff4);
     al.add(staff5);
-    al.add(staff6);
+
     new FileService().writeStaffData(al);
   }
 
@@ -71,5 +72,131 @@ public class Seeder {
     al.add(Room20);
 
     new FileService().writeRoomData(al);
+  }
+
+  public void seedReservation() throws IOException {
+    ArrayList<Reservation> al = new ArrayList<Reservation>();
+    Reservation Reservation1 = new Reservation(
+      1000,
+      "Eugene Tin",
+      "020603101803",
+      "0123787986",
+      "eugenetin@gmail.com",
+      100,
+      "Jungle",
+      LocalDate.parse("2022-02-20"),
+      LocalDate.parse("2022-03-01")
+    );
+    Reservation Reservation2 = new Reservation(
+      1001,
+      "Wen Xuen",
+      "020603101803",
+      "01827272922",
+      "wenxuen@gmail.com",
+      101,
+      "Jungle",
+      LocalDate.parse("2022-01-20"),
+      LocalDate.parse("2022-02-01")
+    );
+    Reservation Reservation3 = new Reservation(
+      1003,
+      "Steben Sim",
+      "020603101803",
+      "0123787986",
+      "steven@gmail.com",
+      102,
+      "Jungle",
+      LocalDate.parse("2022-02-10"),
+      LocalDate.parse("2022-02-21")
+    );
+    Reservation Reservation4 = new Reservation(
+      1004,
+      "Jie Lin",
+      "836475839265",
+      "0123787986",
+      "ryanlin@gmail.com",
+      104,
+      "Jungle",
+      LocalDate.parse("2022-02-20"),
+      LocalDate.parse("2022-03-01")
+    );
+    Reservation Reservation5 = new Reservation(
+      1005,
+      "Susunesen",
+      "628463856294",
+      "0123787986",
+      "susunesan@gmail.com",
+      201,
+      "Sea",
+      LocalDate.parse("2022-02-20"),
+      LocalDate.parse("2022-02-23")
+    );
+    Reservation Reservation6 = new Reservation(
+      1006,
+      "Nyavinash a/l Balan",
+      "275638563283",
+      "0123787986",
+      "nyavinash@gmail.com",
+      202,
+      "Sea",
+      LocalDate.parse("2022-02-20"),
+      LocalDate.parse("2022-03-01")
+    );
+    Reservation Reservation7 = new Reservation(
+      1007,
+      "Jia Hao",
+      "929282827262",
+      "0123787986",
+      "jiahao@gmail.com",
+      203,
+      "Sea",
+      LocalDate.parse("2022-03-10"),
+      LocalDate.parse("2022-03-21")
+    );
+    Reservation Reservation8 = new Reservation(
+      1008,
+      "Kelvin Liow",
+      "717263849403",
+      "0123787986",
+      "kelvinliow999@gmail.com",
+      205,
+      "Sea",
+      LocalDate.parse("2022-02-20"),
+      LocalDate.parse("2022-03-01")
+    );
+    Reservation Reservation9 = new Reservation(
+      1009,
+      "Liow Shan Kai",
+      "283758374937",
+      "0123787986",
+      "liowshankai69@gmail.com",
+      107,
+      "Jungle",
+      LocalDate.parse("2022-02-27"),
+      LocalDate.parse("2022-03-11")
+    );
+    Reservation Reservation10 = new Reservation(
+      1010,
+      "Ritteechai",
+      "020493837483",
+      "0183216766",
+      "ritteechai@gmail.com",
+      209,
+      "Sea",
+      LocalDate.parse("2022-01-26"),
+      LocalDate.parse("2022-03-20")
+    );
+
+    al.add(Reservation1);
+    al.add(Reservation2);
+    al.add(Reservation3);
+    al.add(Reservation4);
+    al.add(Reservation5);
+    al.add(Reservation6);
+    al.add(Reservation7);
+    al.add(Reservation8);
+    al.add(Reservation9);
+    al.add(Reservation10);
+    new FileService().writeReservationData(al);
   }
 }

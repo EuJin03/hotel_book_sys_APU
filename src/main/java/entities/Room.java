@@ -27,6 +27,7 @@ public class Room implements Serializable {
     return occupied;
   }
 
+  @Override
   public String toString() {
     return _id + " " + type + " " + occupied;
   }

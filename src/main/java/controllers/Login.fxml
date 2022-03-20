@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.java.controllers.LoginController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0"  xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.java.controllers.LoginController">
    <children>
       <Label alignment="CENTER" prefHeight="132.0" prefWidth="1280.0" style="-fx-background-color: #073422;" text="Resort Room Booking System" textFill="WHITE">
          <font>
@@ -43,6 +43,11 @@
                </children>
             </Pane>
             <Hyperlink fx:id="registerLink" layoutX="614.0" layoutY="3.0" onAction="#registerPage" text="New User?" />
+            <Label fx:id="registerSuccessLabel" layoutX="222.0" layoutY="106.0" style="-fx-opacity: 0;" text="Registered successfully. Please login now" textFill="#0e6b46">
+               <font>
+                  <Font name="Segoe UI" size="13.0" />
+               </font>
+            </Label>
          </children>
       </Pane>
    </children>
