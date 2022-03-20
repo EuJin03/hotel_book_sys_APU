@@ -198,27 +198,28 @@ public class HomeController
   public void bookReservation(ActionEvent e) throws IOException {
     ArrayList<Reservation> reservationAl = new FileService()
       .readReservationData();
+    int recentID;
 
     // Append latest ID into booking
-    int recentID =
+    if (reservationAl.size() != 0) recentID =
       reservationAl
         .stream()
         .max(Comparator.comparing(Reservation::get_id))
         .get()
         .get_id() +
-      1;
+      1; else recentID = 1000;
 
     String newGuestName = guestInput.getText();
     String newIC = icInput.getText();
     String newContact = contactInput.getText();
     String newEmail = emailInput.getText();
     int roomID = 0;
-    roomBox.setValue(0);
     String roomType = "";
     if (seaRadio.isSelected()) roomType = "Sea";
     if (jungleRadio.isSelected()) roomType = "Jungle";
 
-    if (roomType.length() != 0) roomID = roomBox.getValue();
+    if (roomType.length() != 0 && roomBox.getValue() != null) roomID =
+      roomBox.getValue();
     LocalDate checkIn = inDate.getValue();
     LocalDate checkOut = outDate.getValue();
     boolean CONFIRMATION = new CommonMethods()
@@ -270,7 +271,7 @@ public class HomeController
         ReceiptController receiptController = loader.getController();
         receiptController.generateReceipt(newReservation);
         // update room details
-
+        new CommonMethods().editRoomDetails(roomID);
       } else {
         // Prompt error messages
         // Personal Details
@@ -537,12 +538,6 @@ public class HomeController
     homeTitle.setText("Welcome, " + username + "!");
   }
 
-  @Override
-  public void initialize(URL arg0, ResourceBundle arg1) {
-    viewAllReservation();
-    setDefaultAddReservation();
-  }
-
   public void onRadioChange(ActionEvent e) {
     ArrayList<Room> roomAl = new FileService().readRoomData();
     ListIterator<Room> li = roomAl.listIterator();
@@ -600,5 +595,11 @@ public class HomeController
     );
 
     inDate.setValue(minDate);
+  }
+
+  @Override
+  public void initialize(URL arg0, ResourceBundle arg1) {
+    viewAllReservation();
+    setDefaultAddReservation();
   }
 }

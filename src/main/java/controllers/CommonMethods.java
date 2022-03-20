@@ -1,9 +1,11 @@
 package main.java.controllers;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.ListIterator;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -16,6 +18,8 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.Hyperlink;
 import javafx.stage.Stage;
 import main.java.entities.Reservation;
+import main.java.entities.Room;
+import main.java.util.FileService;
 
 public class CommonMethods {
 
@@ -103,5 +107,57 @@ public class CommonMethods {
     );
 
     return reservationAl;
+  }
+
+  public void editRoomDetails(int roomID) throws IOException {
+    ArrayList<Room> rooms = new FileService().readRoomData();
+    ListIterator<Room> li = rooms.listIterator();
+    boolean found = false;
+
+    while (li.hasNext()) {
+      Room room = (Room) li.next();
+      if (room.get_id() == roomID) {
+        li.set(new Room(room.get_id(), room.getType(), true));
+        found = true;
+      }
+    }
+
+    if (!found) System.out.println("Something went wrong with the code"); else {
+      Collections.sort(
+        rooms,
+        new Comparator<Room>() {
+          public int compare(Room r1, Room r2) {
+            return r1.get_id() - r2.get_id();
+          }
+        }
+      );
+
+      new FileService().writeRoomData(rooms);
+    }
+  }
+
+  public void refreshRoomDetails() throws IOException {
+    // Compare dates and set occupy to false
+    ArrayList<Reservation> reservationAl = new FileService()
+      .readReservationData();
+    ArrayList<Room> roomAl = new FileService().readRoomData();
+    ListIterator<Room> roomLi = roomAl.listIterator();
+
+    for (Reservation reservation : reservationAl) {
+      LocalDate today = LocalDate.now();
+      LocalDate checkOutDate = reservation.getCheckout();
+
+      if (today.compareTo(checkOutDate) > 0) {
+        while (roomLi.hasNext()) {
+          Room room = (Room) roomLi.next();
+          if (room.get_id() == reservation.getRoom_id()) {
+            roomLi.set(new Room(room.get_id(), room.getType(), false));
+          }
+        }
+      }
+      roomLi = roomAl.listIterator();
+    }
+    System.out.println(roomAl);
+    new FileService().writeRoomData(roomAl);
   }
 }

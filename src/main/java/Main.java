@@ -1,15 +1,11 @@
 package main.java;
 
 import java.io.IOException;
-import java.time.LocalDate;
-import java.util.ArrayList;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import main.java.entities.Reservation;
-import main.java.util.FileService;
 
 public class Main extends Application {
 
@@ -37,25 +33,7 @@ public class Main extends Application {
     throws IOException, InterruptedException, ClassNotFoundException {
     new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
 
-    LocalDate date1 = LocalDate.parse("2022-03-15");
-    LocalDate date2 = LocalDate.parse("2022-03-30");
-
-    ArrayList<Reservation> al = new ArrayList<Reservation>();
-    // al = new FileService().readReservationData();
-    Reservation test = new Reservation(
-      1008,
-      "Kelvin",
-      "020603101803",
-      "0183216766",
-      "kelvin@gmail.com",
-      101,
-      "Jungle",
-      date1,
-      date2
-    );
-
-    al.add(test);
-    new FileService().writeReservationData(al);
+    new Seeder().seedStaff();
 
     // invoke javafx GUI
     launch(args);
