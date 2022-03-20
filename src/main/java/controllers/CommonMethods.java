@@ -1,6 +1,9 @@
 package main.java.controllers;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -12,6 +15,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Hyperlink;
 import javafx.stage.Stage;
+import main.java.entities.Reservation;
 
 public class CommonMethods {
 
@@ -27,7 +31,8 @@ public class CommonMethods {
     ) newscene = "Login.fxml";
 
     if (
-      ((Button) (event.getSource())).getId().equals("receiptButton")
+      ((Button) (event.getSource())).getId().equals("receiptButton") ||
+      ((Button) (event.getSource())).getId().equals("confirmButton")
     ) newscene = "Receipt.fxml";
 
     try {
@@ -83,5 +88,20 @@ public class CommonMethods {
     if (alert.showAndWait().get() == ButtonType.OK) return true;
 
     return false;
+  }
+
+  public ArrayList<Reservation> sortByLatestReservation(
+    ArrayList<Reservation> reservationAl
+  ) {
+    Collections.sort(
+      reservationAl,
+      new Comparator<Reservation>() {
+        public int compare(Reservation r1, Reservation r2) {
+          return r2.get_id() - r1.get_id();
+        }
+      }
+    );
+
+    return reservationAl;
   }
 }

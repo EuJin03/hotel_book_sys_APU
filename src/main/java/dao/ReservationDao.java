@@ -9,7 +9,8 @@ public interface ReservationDao {
   void displayName(String username);
   void viewAllReservation();
   void viewReservation(ArrayList<Reservation> reservationAl);
-  void bookReservation(ActionEvent e);
+  void search(ActionEvent e);
+  void bookReservation(ActionEvent e) throws IOException;
   void editReservation(ActionEvent e);
   void deleteReservation(ActionEvent e) throws IOException;
   void confirmEditReservation(ActionEvent e) throws IOException;
@@ -23,5 +24,5 @@ public interface ReservationDao {
   // // Search
   // Reservation searchByID();
   // Reservation searchByName();
-  // Reservation searchByRoomID();
+  // Reservation searchByContactNo();
 }

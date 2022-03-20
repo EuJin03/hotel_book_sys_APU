@@ -1,3 +1,14 @@
 -root {
   -fx-background-color: #ffffff;
 }
+
+#reservationTable .table-cell {
+  -fx-alignment: CENTER-RIGHT;
+  -fx-skin: "com.sun.javafx.scene.control.skin.TableCellSkin";
+  -fx-padding: 0.166667em;
+  -fx-background-color: transparent;
+  -fx-border-color: transparent -fx-table-cell-border-color transparent transparent;
+  -fx-border-width: 0.083333em;
+  -fx-cell-size: 2em;
+  -fx-text-fill: -fx-text-inner-color;
+}

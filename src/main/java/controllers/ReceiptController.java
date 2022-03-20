@@ -6,7 +6,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import main.java.entities.Reservation;
 
-public class ReceiptController {
+public class ReceiptController extends CommonMethods {
 
   private static final DecimalFormat df = new DecimalFormat("0.00");
 

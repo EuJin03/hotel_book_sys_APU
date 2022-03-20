@@ -16,22 +16,10 @@ import main.java.util.FileService;
 public class LoginController extends CommonMethods implements StaffDao {
 
   @FXML
-  TextField usernameInput;
+  TextField usernameInput, passwordInput, confirmPasswordInput;
 
   @FXML
-  TextField passwordInput;
-
-  @FXML
-  TextField confirmPasswordInput;
-
-  @FXML
-  Label usernameErr;
-
-  @FXML
-  Label passwordErr;
-
-  @FXML
-  Label confirmPasswordErr;
+  Label usernameErr, passwordErr, confirmPasswordErr;
 
   @Override
   public Staff login(ActionEvent e) throws IOException {
