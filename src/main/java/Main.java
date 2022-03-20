@@ -34,6 +34,7 @@ public class Main extends Application {
     new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
 
     new Seeder().seedStaff();
+    new Seeder().seedRoom();
 
     // invoke javafx GUI
     launch(args);

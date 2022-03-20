@@ -228,7 +228,7 @@ public class HomeController
         "Reservation for Mr./Mrs. " + newGuestName,
         "Confirm Reservation."
       );
-    System.out.println("id: " + roomID);
+
     // have to put everything into validationService later
     if (CONFIRMATION) {
       // Error Label reset
@@ -476,6 +476,10 @@ public class HomeController
         .getSelectionModel()
         .getSelectedItem()
         .get_id();
+      int selectedRoomID = reservationTable
+        .getSelectionModel()
+        .getSelectedItem()
+        .getRoom_id();
 
       int selectedID = reservationTable.getSelectionModel().getSelectedIndex();
       boolean CONFIRMATION = new CommonMethods()
@@ -486,6 +490,14 @@ public class HomeController
         );
 
       if (CONFIRMATION) {
+        ArrayList<Room> roomAl = new FileService().readRoomData();
+        ListIterator<Room> roomLi = roomAl.listIterator();
+        while (roomLi.hasNext()) {
+          Room room = (Room) roomLi.next();
+          if (room.get_id() == selectedRoomID) {
+            roomLi.set(new Room(room.get_id(), room.getType(), false));
+          }
+        }
         reservationTable.getItems().remove(selectedID);
 
         ArrayList<Reservation> reservationAl = new FileService()
@@ -505,6 +517,7 @@ public class HomeController
           System.out.println("Cannot delete this reservation");
         } else {
           new FileService().writeReservationData(reservationAl);
+          new FileService().writeRoomData(roomAl);
         }
       }
     }

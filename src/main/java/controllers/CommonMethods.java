@@ -157,7 +157,7 @@ public class CommonMethods {
       }
       roomLi = roomAl.listIterator();
     }
-    System.out.println(roomAl);
+
     new FileService().writeRoomData(roomAl);
   }
 }
