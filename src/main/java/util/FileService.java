@@ -15,6 +15,9 @@ import main.java.entities.Reservation;
 import main.java.entities.Room;
 import main.java.entities.Staff;
 
+/**
+ * @author Eugene Tin
+ */
 public class FileService {
 
   // Retrieve files from its relative path

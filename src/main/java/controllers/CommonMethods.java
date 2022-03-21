@@ -26,6 +26,9 @@ import main.java.entities.Reservation;
 import main.java.entities.Room;
 import main.java.util.FileService;
 
+/**
+ * @author Eugene Tin
+ */
 public class CommonMethods {
 
   /**

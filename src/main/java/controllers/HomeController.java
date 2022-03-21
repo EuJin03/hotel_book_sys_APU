@@ -35,6 +35,9 @@ import main.java.entities.Room;
 import main.java.util.FileService;
 import main.java.util.ValidationService;
 
+/**
+ * @author Eugene Tin
+ */
 public class HomeController
   extends CommonMethods
   implements ReservationDao, Initializable {

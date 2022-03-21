@@ -12,6 +12,9 @@ import main.java.entities.Room;
 import main.java.entities.Staff;
 import main.java.util.FileService;
 
+/**
+ * @author Eugene Tin
+ */
 public class Seeder {
 
   public void seedStaff() throws IOException {

@@ -18,6 +18,9 @@ import main.java.util.EncryptionService;
 import main.java.util.FileService;
 import main.java.util.ValidationService;
 
+/**
+ * @author Eugene Tin
+ */
 public class LoginController extends CommonMethods implements StaffDao {
 
   @FXML

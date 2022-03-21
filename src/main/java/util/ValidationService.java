@@ -9,6 +9,9 @@ import java.util.ArrayList;
 import java.util.regex.Pattern;
 import main.java.entities.Staff;
 
+/**
+ * @author Eugene Tin
+ */
 public class ValidationService {
 
   /**

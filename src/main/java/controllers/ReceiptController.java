@@ -9,6 +9,9 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import main.java.entities.Reservation;
 
+/**
+ * @author Eugene Tin
+ */
 public class ReceiptController extends CommonMethods {
 
   // format price strings into 2 decimals place
@@ -35,7 +38,9 @@ public class ReceiptController extends CommonMethods {
     roomTypeLabel.setText(reservation.getRoomType());
     checkInLabel.setText(reservation.getCheckin().toString());
     checkOutLabel.setText(reservation.getCheckout().toString());
-    durationLabel.setText(String.valueOf(reservation.getDuration()) + " days");
+    durationLabel.setText(
+      String.valueOf(reservation.getDuration()) + " day(s)"
+    );
     subtotalLabel.setText("RM" + df.format(reservation.getNetPrice()));
     serviceTaxLabel.setText("RM" + df.format(reservation.getServiceTax()));
     roomFeeLabel.setText("RM" + df.format(reservation.getTotalRoomTax()));

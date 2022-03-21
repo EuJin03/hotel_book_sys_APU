@@ -13,6 +13,9 @@ import java.util.Base64;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
 
+/**
+ * @author Eugene Tin
+ */
 public class EncryptionService {
 
   private static final int ITERATIONS = 10000;
