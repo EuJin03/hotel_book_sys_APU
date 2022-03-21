@@ -1,3 +1,7 @@
+/***********************************************************************************************
+ A Room class that has constructor with private variables to creates instances of room's 
+ and has methods that provide necessary data needed by the controller classes.
+ ***********************************************************************************************/
 package main.java.entities;
 
 import java.io.Serializable;

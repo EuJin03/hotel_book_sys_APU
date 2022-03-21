@@ -1,3 +1,6 @@
+/***************************************************************************************
+        Controller class and logic implementation for Login.fxml and Register.fxml
+ ***************************************************************************************/
 package main.java.controllers;
 
 import java.io.IOException;
@@ -7,7 +10,6 @@ import java.util.ListIterator;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import main.java.dao.*;
@@ -24,19 +26,29 @@ public class LoginController extends CommonMethods implements StaffDao {
   @FXML
   Label usernameErr, usernameExistErr, passwordErr, confirmPasswordErr, registerSuccessLabel;
 
+  /**
+   * * Verify login user onButtonAction
+   * @param ActionEvent retrieve user inputs and button clicked
+   * @throws IOException
+   */
   @Override
-  public Staff login(ActionEvent e) throws IOException {
+  public void login(ActionEvent e) throws IOException {
     boolean foundUser = false;
     String username = usernameInput.getText();
     String password = passwordInput.getText();
     ListIterator<Staff> li = null;
     try {
+      // Retrieve staff data
       ArrayList<Staff> staffAl = new FileService().readStaffData();
+
+      // loop through staff data and verify username
       li = staffAl.listIterator();
       while (li.hasNext()) {
         Staff staff = (Staff) li.next();
         if (staff.getUsername().equals(username)) {
           foundUser = true;
+
+          // verify staff password
           boolean valid = EncryptionService.verifyUserPassword(
             password,
             staff.getPassword()
@@ -47,6 +59,8 @@ public class LoginController extends CommonMethods implements StaffDao {
             FXMLLoader loader = new CommonMethods().loadButtonScene(e);
             HomeController homeController = loader.getController();
             homeController.displayName(username);
+
+            // automatically return checked out room and update room data
             new CommonMethods().refreshRoomDetails();
           } else {
             // set incorrect password label to visible
@@ -60,22 +74,28 @@ public class LoginController extends CommonMethods implements StaffDao {
       ); else usernameErr.setStyle("-fx-opacity: 0");
     } catch (Exception err) {
       err.printStackTrace();
-      return null;
     }
-
-    return null;
   }
 
+  /**
+   * * Register new staff onButtonAction
+   * @param ActionEvent retrieve user inputs and button clicked
+   * @throws IOException
+   */
   @Override
   public void register(ActionEvent e) throws IOException {
+    // Read staff data
     ArrayList<Staff> staffAl = new FileService().readStaffData();
+    // An array to catch validation error
     ArrayList<String> validateRegister = new ArrayList<String>();
 
+    // Retrieve input data
     String username = usernameInput.getText();
     String password = passwordInput.getText();
     String confirmPassword = confirmPasswordInput.getText();
     int recentID;
 
+    // Alert pop up confirmation
     boolean CONFIRMATION = new CommonMethods()
     .appendAlert(
         "Register Confirmation",
@@ -90,10 +110,12 @@ public class LoginController extends CommonMethods implements StaffDao {
       passwordErr.setStyle("-fx-opacity: 0");
       confirmPasswordErr.setStyle("-fx-opacity: 0");
 
+      // add validation errors
       validateRegister =
         new ValidationService()
         .registerValidation(username, password, confirmPassword);
 
+      // If error exist
       if (validateRegister.size() != 0) {
         for (String field : validateRegister) {
           switch (field) {
@@ -114,6 +136,8 @@ public class LoginController extends CommonMethods implements StaffDao {
           }
         }
       } else {
+        // Add new user to database after CONFIRMATION
+        // Search for the latest ID and add by 1
         if (staffAl.size() != 0) recentID =
           staffAl
             .stream()
@@ -122,11 +146,17 @@ public class LoginController extends CommonMethods implements StaffDao {
             .get_id() +
           1; else recentID = 1000;
 
+        // Create new instance of staff from Staff entity
         Staff newStaff = new Staff(recentID, username, password);
+
+        // Append new staff to existing staff list and update staff data
         staffAl.add(newStaff);
-        System.out.println(newStaff);
         new FileService().writeStaffData(staffAl);
+
+        // Reset UI input
         clearInput();
+
+        // Prompt user to login page to sign in
         FXMLLoader loader = new CommonMethods().loadButtonScene(e);
         LoginController loginController = loader.getController();
         loginController.displayRegisterSuccess();
@@ -134,6 +164,9 @@ public class LoginController extends CommonMethods implements StaffDao {
     }
   }
 
+  /**
+   * * UI input reset
+   */
   public void clearInput() {
     usernameInput.clear();
     passwordInput.clear();
@@ -144,14 +177,25 @@ public class LoginController extends CommonMethods implements StaffDao {
     confirmPasswordErr.setStyle("-fx-opacity: 0");
   }
 
+  /**
+   * * set registerSuccessLabel to visible
+   */
   public void displayRegisterSuccess() {
     registerSuccessLabel.setStyle("-fx-opacity: 1");
   }
 
+  /**
+   * * Prompt user to register page onLinkAction
+   * @param ActionEvent retrieve hyperlink ID
+   */
   public void registerPage(ActionEvent e) {
     new CommonMethods().loadLinkScene(e);
   }
 
+  /**
+   * * Prompt user to register page onLinkAction
+   * @param ActionEvent retrieve hyperlink ID
+   */
   public void loginPage(ActionEvent e) {
     new CommonMethods().loadLinkScene(e);
   }

@@ -1,3 +1,8 @@
+/*******************************************************************************
+   This class includes common methods that are frequently used by all the
+   controller classes. All fxml/controller pages inherit this class and so can
+   directly use these methods resulting in a cleaner and modularised code.
+ ******************************************************************************/
 package main.java.controllers;
 
 import java.io.IOException;
@@ -23,6 +28,12 @@ import main.java.util.FileService;
 
 public class CommonMethods {
 
+  /**
+   * loadButtonScene
+   * * Switch the scene of the app onButtonAction
+   * @param ActionEvent retrieve the buttonID and switch to scene accordingly
+   * @return FXMLLoader
+   */
   public FXMLLoader loadButtonScene(ActionEvent event) {
     String newscene = "";
     if (
@@ -59,6 +70,12 @@ public class CommonMethods {
     return null;
   }
 
+  /**
+   * loadLinkScene
+   * * Switch the scene of the app onHyperLinkAction
+   * @param ActionEvent retrieve the linkID and switch to scene accordingly
+   * @return FXMLLoader
+   */
   public FXMLLoader loadLinkScene(ActionEvent event) {
     String newscene = "";
     if (
@@ -86,6 +103,12 @@ public class CommonMethods {
     return null;
   }
 
+  /**
+   * appendAlert
+   * * A method that creates a customize pop up alert for confirmation of user actions
+   * @param title/header/content customize content for the pop up alert
+   * @return boolean
+   */
   public boolean appendAlert(String title, String header, String content) {
     Alert alert = new Alert(AlertType.CONFIRMATION);
     alert.setTitle(title);
@@ -97,6 +120,11 @@ public class CommonMethods {
     return false;
   }
 
+  /**
+   * * Sort the reservation arraylist by ID in descending order
+   * @param reservationAl reservation arraylist from database
+   * @return sorted reservationAl
+   */
   public ArrayList<Reservation> sortByLatestReservation(
     ArrayList<Reservation> reservationAl
   ) {
@@ -112,6 +140,12 @@ public class CommonMethods {
     return reservationAl;
   }
 
+  /**
+   * * Loop through the room array and modify "occupied" field to true if the room is booked and save to database
+   * * works with bookReservation() to remove booked room from choicebox
+   * @param roomID selected room ID
+   * @throws IOException
+   */
   public void editRoomDetails(int roomID) throws IOException {
     ArrayList<Room> rooms = new FileService().readRoomData();
     ListIterator<Room> li = rooms.listIterator();
@@ -139,6 +173,12 @@ public class CommonMethods {
     }
   }
 
+  /**
+   * * Construct an autoUpdate method to update room database
+   * * Loop through the reservation arraylist and automatically search for checked out room
+   * * modify room arraylist "occupied" field to false and update it
+   * @throws IOException
+   */
   public void refreshRoomDetails() throws IOException {
     // Compare dates and set occupy to false
     ArrayList<Reservation> reservationAl = new FileService()

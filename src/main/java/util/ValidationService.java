@@ -27,7 +27,7 @@ public class ValidationService {
     if (guestName.length() < 5) error.add("guestName");
 
     // ValidateIC
-    if (!ICRegEx.matcher(IC).find()) error.add("IC");
+    if (!ICRegEx.matcher(IC).find() || IC.length() > 12) error.add("IC");
 
     // Validate Phone Number
     if (!phoneRegEx.matcher(contact).find()) error.add("contact");

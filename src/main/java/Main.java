@@ -33,9 +33,9 @@ public class Main extends Application {
     throws IOException, InterruptedException, ClassNotFoundException {
     new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
 
-    new Seeder().seedStaff();
-    new Seeder().seedRoom();
-    new Seeder().seedReservation();
+    // new Seeder().seedStaff();
+    // new Seeder().seedRoom();
+    // new Seeder().seedReservation();
 
     // invoke javafx GUI
     launch(args);

@@ -1,3 +1,6 @@
+/*******************************************************************************
+            Controller class and logic implementation for Receipt.fxml
+ ******************************************************************************/
 package main.java.controllers;
 
 import java.text.DecimalFormat;
@@ -8,6 +11,7 @@ import main.java.entities.Reservation;
 
 public class ReceiptController extends CommonMethods {
 
+  // format price strings into 2 decimals place
   private static final DecimalFormat df = new DecimalFormat("0.00");
 
   @FXML
@@ -17,6 +21,10 @@ public class ReceiptController extends CommonMethods {
     new CommonMethods().loadButtonScene(event);
   }
 
+  /**
+   * * Generate receipt by displaying details from reservation array
+   * @param reservation selected single reservation data
+   */
   public void generateReceipt(Reservation reservation) {
     invoiceLabel.setText(String.valueOf(reservation.get_id()));
     guestNameLabel.setText(reservation.getGuestName());
