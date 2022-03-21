@@ -1,3 +1,7 @@
+/***********************************************************************************************************************************************************
+ * EncryptionService is an utility class that contain methods that handles encryption and verification of the passwords during registration and login process
+ ***********************************************************************************************************************************************************/
+
 package main.java.util;
 
 import java.security.NoSuchAlgorithmException;

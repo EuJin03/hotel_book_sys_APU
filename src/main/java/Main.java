@@ -1,3 +1,6 @@
+/*******************************************************************************
+ Main class that loads up the initial Login.fxml and starts up application.
+ ******************************************************************************/
 package main.java;
 
 import java.io.IOException;
