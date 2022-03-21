@@ -232,10 +232,7 @@ public class HomeController
             "Please check the input and search again."
           );
         searchInput.clear();
-      } else {
-        // * if result is found, invoke the viewReservation method to display results
-        viewReservation(result);
-      }
+      } else viewReservation(result); // * if result is found, invoke the viewReservation method to display results
     }
   }
 
@@ -598,10 +595,9 @@ public class HomeController
         .get_id();
 
       // * retrieve cell row reservation object roomID
-      int selectedRoomID = reservationTable
+      Reservation selectedRoomReservation = reservationTable
         .getSelectionModel()
-        .getSelectedItem()
-        .getRoom_id();
+        .getSelectedItem();
 
       // * retrieve cell row index for UI deletion
       int selectedID = reservationTable.getSelectionModel().getSelectedIndex();
@@ -619,11 +615,16 @@ public class HomeController
         // * retrieve room objects from database
         ArrayList<Room> roomAl = new FileService().readRoomData();
         ListIterator<Room> roomLi = roomAl.listIterator();
+        LocalDate today = LocalDate.now();
+        int ifPassed = today.compareTo(selectedRoomReservation.getCheckout());
 
         // * iterate through the room arraylist to find roomID that matches the reservation roomID
         while (roomLi.hasNext()) {
           Room room = (Room) roomLi.next();
-          if (room.get_id() == selectedRoomID) {
+          if (
+            room.get_id() == selectedRoomReservation.getRoom_id() &&
+            ifPassed <= 0
+          ) {
             roomLi.set(new Room(room.get_id(), room.getType(), false));
           }
         }

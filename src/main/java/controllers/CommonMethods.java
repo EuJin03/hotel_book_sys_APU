@@ -183,27 +183,31 @@ public class CommonMethods {
    * @throws IOException
    */
   public void refreshRoomDetails() throws IOException {
-    // Compare dates and set occupy to false
+    // Compare dates and set occupy teugo false
     ArrayList<Reservation> reservationAl = new FileService()
       .readReservationData();
     ArrayList<Room> roomAl = new FileService().readRoomData();
-    ListIterator<Room> roomLi = roomAl.listIterator();
+    LocalDate today = LocalDate.now().plusDays(3);
+    ArrayList<Integer> roomToReset = new ArrayList<Integer>();
+    ArrayList<Room> newRoomAl = new ArrayList<Room>();
 
     for (Reservation reservation : reservationAl) {
-      LocalDate today = LocalDate.now().plusDays(15);
       LocalDate checkOutDate = reservation.getCheckout();
-
       if (today.compareTo(checkOutDate) > 0) {
-        while (roomLi.hasNext()) {
-          Room room = (Room) roomLi.next();
-          if (room.get_id() == reservation.getRoom_id()) {
-            roomLi.set(new Room(room.get_id(), room.getType(), false));
-          }
-        }
+        roomToReset.add(reservation.getRoom_id());
       }
-      roomLi = roomAl.listIterator();
     }
 
-    new FileService().writeRoomData(roomAl);
+    // here is the problem
+    for (Room room : roomAl) {
+      for (int test : roomToReset) {
+        if (room.get_id() == test) {
+          room = new Room(room.get_id(), room.getType(), false);
+        }
+      }
+      newRoomAl.add(room);
+    }
+
+    new FileService().writeRoomData(newRoomAl);
   }
 }
