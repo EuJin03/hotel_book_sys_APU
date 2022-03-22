@@ -187,7 +187,7 @@ public class CommonMethods {
     ArrayList<Reservation> reservationAl = new FileService()
       .readReservationData();
     ArrayList<Room> roomAl = new FileService().readRoomData();
-    LocalDate today = LocalDate.now().plusDays(3);
+    LocalDate today = LocalDate.now();
     ArrayList<Integer> roomToReset = new ArrayList<Integer>();
     ArrayList<Room> newRoomAl = new ArrayList<Room>();
 
@@ -198,16 +198,17 @@ public class CommonMethods {
       }
     }
 
-    // here is the problem
+    // Reset the occupied room and append it to new room Arraylist
     for (Room room : roomAl) {
-      for (int test : roomToReset) {
-        if (room.get_id() == test) {
+      for (int roomID : roomToReset) {
+        if (room.get_id() == roomID) {
           room = new Room(room.get_id(), room.getType(), false);
         }
       }
       newRoomAl.add(room);
     }
 
+    // Overwrite the previous room arraylist
     new FileService().writeRoomData(newRoomAl);
   }
 }
