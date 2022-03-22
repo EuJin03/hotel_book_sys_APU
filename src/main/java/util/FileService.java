@@ -57,10 +57,14 @@ public class FileService {
    * @throws IOException
    */
   public void writeStaffData(ArrayList<Staff> staffAl) throws IOException {
-    ObjectOutputStream oos = null;
-    oos = new ObjectOutputStream(new FileOutputStream(staffFile));
-    oos.writeObject(staffAl);
-    oos.close();
+    try {
+      ObjectOutputStream oos = null;
+      oos = new ObjectOutputStream(new FileOutputStream(staffFile));
+      oos.writeObject(staffAl);
+      oos.close();
+    } catch (IOException err) {
+      err.printStackTrace();
+    }
   }
 
   /**
@@ -93,10 +97,14 @@ public class FileService {
    * @throws IOException
    */
   public void writeRoomData(ArrayList<Room> roomAl) throws IOException {
-    ObjectOutputStream oos = null;
-    oos = new ObjectOutputStream(new FileOutputStream(roomFile));
-    oos.writeObject(roomAl);
-    oos.close();
+    try {
+      ObjectOutputStream oos = null;
+      oos = new ObjectOutputStream(new FileOutputStream(roomFile));
+      oos.writeObject(roomAl);
+      oos.close();
+    } catch (IOException err) {
+      err.printStackTrace();
+    }
   }
 
   /**
@@ -130,9 +138,13 @@ public class FileService {
    */
   public void writeReservationData(ArrayList<Reservation> reservationAl)
     throws IOException {
-    ObjectOutputStream oos = null;
-    oos = new ObjectOutputStream(new FileOutputStream(reservationFile));
-    oos.writeObject(reservationAl);
-    oos.close();
+    try {
+      ObjectOutputStream oos = null;
+      oos = new ObjectOutputStream(new FileOutputStream(reservationFile));
+      oos.writeObject(reservationAl);
+      oos.close();
+    } catch (IOException err) {
+      err.printStackTrace();
+    }
   }
 }
